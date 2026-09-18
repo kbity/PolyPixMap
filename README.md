@@ -13,7 +13,7 @@ To use PolyPixMap, then you use a pnm file in an img as you would any other imag
 <img src="photograph.pgm">
 <img src="icon.pgm">
 
-<script src="/misc/polypixmap.min.js"></script> // use AFTER all ppm <img> elements
+<script src="/misc/polypixmap.min.js"></script> // use AFTER all ppm <img> elements, unless you manually call the function polypixmap()
 ```
 
 PolyPixMap will replace it with a PNG blob, and put the original source url for the image into the `data-orig` property of the img element.
