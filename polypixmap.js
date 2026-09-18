@@ -250,36 +250,40 @@ function parsePPM(data) {
   return [pixmap, w, h];
 }
 
-document.querySelectorAll("img").forEach(async img => {
-  if (!img.src.endsWith(".ppm") && !img.src.endsWith(".pgm") && !img.src.endsWith(".pbm") && !img.src.endsWith(".pnm"))
+function polypixmap() {
+  document.querySelectorAll("img").forEach(async img => {
+    if (!img.src.endsWith(".ppm") && !img.src.endsWith(".pgm") && !img.src.endsWith(".pbm") && !img.src.endsWith(".pnm"))
       return;
 
-  const old_src = img.src
+    const old_src = img.src
 
-  const response = await fetch(img.src);
-  const data = await response.arrayBuffer();
+    const response = await fetch(img.src);
+    const data = await response.arrayBuffer();
 
-  const pnm = parsePPM(data);
-  const canvas = document.createElement("canvas");
-  canvas.width = pnm[1];
-  canvas.height = pnm[2];
+    const pnm = parsePPM(data);
+    const canvas = document.createElement("canvas");
+    canvas.width = pnm[1];
+    canvas.height = pnm[2];
 
-  const ctx = canvas.getContext("2d");
-  const imageData = ctx.createImageData(pnm[1], pnm[2]);
-  for (let y = 0; y < pnm[2]; y++) {
-    for (let x = 0; x < pnm[1]; x++) {
-      const i = (y*pnm[1]+x)*4;
-      imageData.data[i] = pnm[0][y][x][0];   // R
-      imageData.data[i+1] = pnm[0][y][x][1]; // G
-      imageData.data[i+2] = pnm[0][y][x][2]; // B
-      imageData.data[i+3] = 255;             // A
+    const ctx = canvas.getContext("2d");
+    const imageData = ctx.createImageData(pnm[1], pnm[2]);
+    for (let y = 0; y < pnm[2]; y++) {
+      for (let x = 0; x < pnm[1]; x++) {
+        const i = (y*pnm[1]+x)*4;
+        imageData.data[i] = pnm[0][y][x][0];   // R
+        imageData.data[i+1] = pnm[0][y][x][1]; // G
+        imageData.data[i+2] = pnm[0][y][x][2]; // B
+        imageData.data[i+3] = 255;             // A
+      }
     }
-  }
-  ctx.putImageData(imageData, 0, 0);
-  const blob = await new Promise(resolve =>
-    canvas.toBlob(resolve, "image/png")
-  );
+    ctx.putImageData(imageData, 0, 0);
+    const blob = await new Promise(resolve =>
+      canvas.toBlob(resolve, "image/png")
+    );
 
-  img.dataset.orig = old_src;
-  img.src = URL.createObjectURL(blob);
-});
+    img.dataset.orig = old_src;
+    img.src = URL.createObjectURL(blob);
+  });
+};
+
+polypixmap()
