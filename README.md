@@ -1,6 +1,7 @@
 # PolyPixMap
 PolyPixMap (`polypixmap.js`, `polypixmap.min.js`) is a near-complete JavaScript Polyfill for the PNM (`P1/P2/P3/P4/P5/P6`) image formats, allowing for these formats to be used on websites without conversion to another format.
 > Note: PolyPixMap does not currently support the P7/PAM format
+> Note: Images with MaxVals >255 are mapped down to 8-bit because of canvas limitations
 ## usage
 To use PolyPixMap, then you use a pnm file in an img as you would any other image format (e.g. png, jpg), then add a script object that points to the PolyPixMap code after your img elements.
 
