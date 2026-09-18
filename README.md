@@ -17,3 +17,5 @@ To use PolyPixMap, then you use a pnm file in an img as you would any other imag
 ```
 
 PolyPixMap will replace it with a PNG blob, and put the original source url for the image into the `data-orig` property of the img element.
+
+![PolyPixMap Showcase](PolyPixMap.png)
